@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Stars, useGLTF, Line, CameraControls, Clone } from '@react-three/drei';
+import { Stars, useGLTF, Line, CameraControls, Clone, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { planetsData, sunData, PLANET_CONSTANTS } from '../data/planets';
 
@@ -37,10 +37,16 @@ function Sun() {
   const normalizedScene = useNormalizedScene(sunData.textureUrl, physicalSize * 2);
   const meshRef = useRef();
   
+  const SIM_SECONDS_PER_YEAR = 1200; // 1 whole Earth year passes in 360 seconds (6 minutes)
+  const SIM_HOURS_PER_YEAR = 8766;
+  const REAL_SECONDS_PER_SIM_HOUR = SIM_SECONDS_PER_YEAR / SIM_HOURS_PER_YEAR;
+
+  // The Sun rotates extremely slowly (25.38 Earth days = 609 hours)
+  const axialSpeed = (2 * Math.PI) / (sunData.rotationPeriodHours * REAL_SECONDS_PER_SIM_HOUR);
+
   useFrame((_, delta) => {
     if (meshRef.current) {
-      // Arbitrary smooth rotation for sun
-      meshRef.current.rotation.y += delta * 0.1;
+      meshRef.current.rotation.y += axialSpeed * delta;
     }
   });
   
@@ -65,9 +71,18 @@ function Planet({ data, isSelected, onClick, planetRefs }) {
   const physicalSize = data.radiusEarths * PLANET_CONSTANTS.SCALE_SIZE;
   const scaledDistance = data.distanceAU * PLANET_CONSTANTS.SCALE_DISTANCE;
   
-  // 1 Year = 10 simulation seconds
-  const SIM_SECONDS_PER_YEAR = 10; 
-  const angularSpeed = (2 * Math.PI) / (data.orbitalPeriod * SIM_SECONDS_PER_YEAR);
+  // NEW TARGET: 360 real seconds = 12 simulated months (1 Earth Year)
+  const SIM_SECONDS_PER_YEAR = 360;
+  
+  // To retain strictly accurate day/night spin ratios under this accelerated annual clock:
+  const SIM_HOURS_PER_YEAR = 8766; // 365.25 days * 24 
+  const REAL_SECONDS_PER_SIM_HOUR = SIM_SECONDS_PER_YEAR / SIM_HOURS_PER_YEAR;
+
+  // Exact Kepler-ratio orbital trajectory physics
+  const orbitalSpeed = (2 * Math.PI) / (data.orbitalPeriod * SIM_SECONDS_PER_YEAR);
+  
+  // Exact day/night surface rotation physics
+  const axialSpeed = (2 * Math.PI) / (data.rotationPeriodHours * REAL_SECONDS_PER_SIM_HOUR);
 
   const normalizedScene = useNormalizedScene(data.textureUrl, physicalSize * 2);
   
@@ -88,14 +103,14 @@ function Planet({ data, isSelected, onClick, planetRefs }) {
 
   useFrame((_, delta) => {
     if (pivotRef.current) {
-      // Axial rotation
+      // Rigorous axial day/night rotation
       if (innerGroupRef.current) {
-        innerGroupRef.current.rotation.y += delta * 0.5;
+        innerGroupRef.current.rotation.y += axialSpeed * delta;
       }
       
-      // Stop revolution if selected
+      // Stop revolution if selected to focus camera
       if (!isSelected) {
-        pivotRef.current.rotation.y -= angularSpeed * delta;
+        pivotRef.current.rotation.y -= orbitalSpeed * delta;
       }
     }
   });
@@ -127,6 +142,17 @@ function Planet({ data, isSelected, onClick, planetRefs }) {
           </mesh>
 
           <primitive object={normalizedScene} />
+
+          {/* Planet Nameplate HUD */}
+          <Html 
+            center 
+            position={[0, physicalSize * 1.5 + 0.5, 0]} // Hover mathematically above the planet
+            className="pointer-events-none opacity-80 transition-opacity duration-300"
+          >
+            <div className="text-white font-medium text-xs tracking-wider uppercase bg-slate-900/60 backdrop-blur-sm border border-white/10 px-2 py-0.5 rounded-sm whitespace-nowrap">
+              {data.name}
+            </div>
+          </Html>
         </group>
       </group>
       

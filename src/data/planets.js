@@ -11,9 +11,11 @@ export const planetsData = [
     name: "Mercury",
     type: "Terrestrial Planet",
     textureUrl: "/models/mercury.glb",
+    textureUrl: "/models/mercury.glb",
     distanceAU: 0.39,
     radiusEarths: 0.38,
     orbitalPeriod: 0.24,
+    rotationPeriodHours: 1407.6, // 58.6 days
     facts: {
       distanceFromSun: "57.9 million km (0.39 AU)",
       orbitalPeriod: "88 Earth days",
@@ -27,9 +29,11 @@ export const planetsData = [
     name: "Venus",
     type: "Terrestrial Planet",
     textureUrl: "/models/venus.glb",
+    textureUrl: "/models/venus.glb",
     distanceAU: 0.72,
     radiusEarths: 0.95,
     orbitalPeriod: 0.62,
+    rotationPeriodHours: -5832.5, // Retrograde rotation
     facts: {
       distanceFromSun: "108.2 million km (0.72 AU)",
       orbitalPeriod: "225 Earth days",
@@ -43,9 +47,11 @@ export const planetsData = [
     name: "Earth",
     type: "Terrestrial Planet",
     textureUrl: "/models/earth.glb",
+    textureUrl: "/models/earth.glb",
     distanceAU: 1.0,
     radiusEarths: 1.0,
     orbitalPeriod: 1.0,
+    rotationPeriodHours: 23.9,
     facts: {
       distanceFromSun: "149.6 million km (1.00 AU)",
       orbitalPeriod: "365.25 Earth days",
@@ -59,9 +65,11 @@ export const planetsData = [
     name: "Mars",
     type: "Terrestrial Planet",
     textureUrl: "/models/mars.glb",
+    textureUrl: "/models/mars.glb",
     distanceAU: 1.52,
     radiusEarths: 0.53,
     orbitalPeriod: 1.88,
+    rotationPeriodHours: 24.6,
     facts: {
       distanceFromSun: "227.9 million km (1.52 AU)",
       orbitalPeriod: "687 Earth days",
@@ -75,9 +83,11 @@ export const planetsData = [
     name: "Gas Giant",
     type: "Gas Giant",
     textureUrl: "/models/jupiter.glb",
+    textureUrl: "/models/jupiter.glb",
     distanceAU: 5.2,
     radiusEarths: 11.2, // Jupiter is ~11.2 times Earth's radius
     orbitalPeriod: 11.86,
+    rotationPeriodHours: 9.9,
     facts: {
       distanceFromSun: "778.6 million km (5.2 AU)",
       orbitalPeriod: "11.86 Earth years",
@@ -91,9 +101,11 @@ export const planetsData = [
     name: "Saturn",
     type: "Gas Giant",
     textureUrl: "/models/saturn.glb",
+    textureUrl: "/models/saturn.glb",
     distanceAU: 9.58,
     radiusEarths: 9.4, 
     orbitalPeriod: 29.46,
+    rotationPeriodHours: 10.7,
     facts: {
       distanceFromSun: "1.43 billion km (9.58 AU)",
       orbitalPeriod: "29.45 Earth years",
@@ -107,9 +119,11 @@ export const planetsData = [
     name: "Uranus",
     type: "Ice Giant",
     textureUrl: "/models/uranus.glb",
+    textureUrl: "/models/uranus.glb",
     distanceAU: 19.22,
     radiusEarths: 4.0,
     orbitalPeriod: 84.01,
+    rotationPeriodHours: -17.2, // Retrograde
     facts: {
       distanceFromSun: "2.87 billion km (19.22 AU)",
       orbitalPeriod: "84 Earth years",
@@ -123,9 +137,11 @@ export const planetsData = [
     name: "Neptune",
     type: "Ice Giant",
     textureUrl: "/models/neptune.glb",
+    textureUrl: "/models/neptune.glb",
     distanceAU: 30.05,
     radiusEarths: 3.9,
     orbitalPeriod: 164.8,
+    rotationPeriodHours: 16.1,
     facts: {
       distanceFromSun: "4.50 billion km (30.05 AU)",
       orbitalPeriod: "164.8 Earth years",
@@ -141,6 +157,7 @@ export const sunData = {
   name: "The Sun",
   type: "Yellow Dwarf Star",
   textureUrl: "/models/sun.glb",
+  rotationPeriodHours: 609.12, // 25 Earth days at equator
   facts: {
     description: "The Sun is a yellow dwarf star, a hot ball of glowing gases at the heart of our solar system. Its gravity holds the solar system together, keeping everything built around it in its orbit.",
     surfaceTemp: "5,500°C",
