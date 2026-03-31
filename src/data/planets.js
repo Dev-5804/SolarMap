@@ -1,15 +1,21 @@
+export const PLANET_CONSTANTS = {
+  SCALE_DISTANCE: 80, // Linear scale multiplier for real AU (1 AU = 80 units)
+  SCALE_SIZE: 0.2, // Earth is 0.2 units.
+  TIME_SCALE: 3155760, // 10 seconds = 1 Earth year => 31557600s / 10
+  SUN_RADIUS_EARTHS: 109.2, // The Sun is exactly 109.2 times Earth's radius
+};
+
 export const planetsData = [
   {
     id: "mercury",
     name: "Mercury",
     type: "Terrestrial Planet",
     textureUrl: "/models/mercury.glb",
-    distance: 12, // Safely outside the sun'
-    size: 0.8, // Visual model scale
-    orbitSpeed: 0.04, // Speed of revolution
-    rotationSpeed: 0.01, // Speed of rotation
+    distanceAU: 0.39,
+    radiusEarths: 0.38,
+    orbitalPeriod: 0.24,
     facts: {
-      distanceFromSun: "57.9 million km",
+      distanceFromSun: "57.9 million km (0.39 AU)",
       orbitalPeriod: "88 Earth days",
       surfaceTemp: "-173°C to 427°C",
       moons: 0,
@@ -21,12 +27,11 @@ export const planetsData = [
     name: "Venus",
     type: "Terrestrial Planet",
     textureUrl: "/models/venus.glb",
-    distance: 18,
-    size: 1.2,
-    orbitSpeed: 0.015,
-    rotationSpeed: -0.005, // Venus rotates backwards
+    distanceAU: 0.72,
+    radiusEarths: 0.95,
+    orbitalPeriod: 0.62,
     facts: {
-      distanceFromSun: "108.2 million km",
+      distanceFromSun: "108.2 million km (0.72 AU)",
       orbitalPeriod: "225 Earth days",
       surfaceTemp: "462°C (Average)",
       moons: 0,
@@ -38,12 +43,11 @@ export const planetsData = [
     name: "Earth",
     type: "Terrestrial Planet",
     textureUrl: "/models/earth.glb",
-    distance: 25,
-    size: 1.3,
-    orbitSpeed: 0.01,
-    rotationSpeed: 0.02,
+    distanceAU: 1.0,
+    radiusEarths: 1.0,
+    orbitalPeriod: 1.0,
     facts: {
-      distanceFromSun: "149.6 million km",
+      distanceFromSun: "149.6 million km (1.00 AU)",
       orbitalPeriod: "365.25 Earth days",
       surfaceTemp: "15°C (Average)",
       moons: 1,
@@ -55,12 +59,11 @@ export const planetsData = [
     name: "Mars",
     type: "Terrestrial Planet",
     textureUrl: "/models/mars.glb",
-    distance: 32,
-    size: 0.9,
-    orbitSpeed: 0.008,
-    rotationSpeed: 0.018,
+    distanceAU: 1.52,
+    radiusEarths: 0.53,
+    orbitalPeriod: 1.88,
     facts: {
-      distanceFromSun: "227.9 million km",
+      distanceFromSun: "227.9 million km (1.52 AU)",
       orbitalPeriod: "687 Earth days",
       surfaceTemp: "-60°C (Average)",
       moons: 2,
@@ -69,15 +72,14 @@ export const planetsData = [
   },
   {
     id: "jupiter",
-    name: "Jupiter",
+    name: "Gas Giant",
     type: "Gas Giant",
     textureUrl: "/models/jupiter.glb",
-    distance: 46,
-    size: 3.5,
-    orbitSpeed: 0.002,
-    rotationSpeed: 0.04,
+    distanceAU: 5.2,
+    radiusEarths: 11.2, // Jupiter is ~11.2 times Earth's radius
+    orbitalPeriod: 11.86,
     facts: {
-      distanceFromSun: "778.6 million km",
+      distanceFromSun: "778.6 million km (5.2 AU)",
       orbitalPeriod: "11.86 Earth years",
       surfaceTemp: "-110°C (Average)",
       moons: 95,
@@ -89,12 +91,11 @@ export const planetsData = [
     name: "Saturn",
     type: "Gas Giant",
     textureUrl: "/models/saturn.glb",
-    distance: 60,
-    size: 3.0,
-    orbitSpeed: 0.0009,
-    rotationSpeed: 0.038,
+    distanceAU: 9.58,
+    radiusEarths: 9.4, 
+    orbitalPeriod: 29.46,
     facts: {
-      distanceFromSun: "1.43 billion km",
+      distanceFromSun: "1.43 billion km (9.58 AU)",
       orbitalPeriod: "29.45 Earth years",
       surfaceTemp: "-140°C (Average)",
       moons: 146,
@@ -106,12 +107,11 @@ export const planetsData = [
     name: "Uranus",
     type: "Ice Giant",
     textureUrl: "/models/uranus.glb",
-    distance: 74,
-    size: 2.2,
-    orbitSpeed: 0.0004,
-    rotationSpeed: -0.03, // Retrograde
+    distanceAU: 19.22,
+    radiusEarths: 4.0,
+    orbitalPeriod: 84.01,
     facts: {
-      distanceFromSun: "2.87 billion km",
+      distanceFromSun: "2.87 billion km (19.22 AU)",
       orbitalPeriod: "84 Earth years",
       surfaceTemp: "-195°C (Average)",
       moons: 28,
@@ -123,12 +123,11 @@ export const planetsData = [
     name: "Neptune",
     type: "Ice Giant",
     textureUrl: "/models/neptune.glb",
-    distance: 88,
-    size: 2.1,
-    orbitSpeed: 0.0001,
-    rotationSpeed: 0.032,
+    distanceAU: 30.05,
+    radiusEarths: 3.9,
+    orbitalPeriod: 164.8,
     facts: {
-      distanceFromSun: "4.50 billion km",
+      distanceFromSun: "4.50 billion km (30.05 AU)",
       orbitalPeriod: "164.8 Earth years",
       surfaceTemp: "-200°C (Average)",
       moons: 16,
@@ -142,8 +141,6 @@ export const sunData = {
   name: "The Sun",
   type: "Yellow Dwarf Star",
   textureUrl: "/models/sun.glb",
-  size: 5,
-  rotationSpeed: 0.005,
   facts: {
     description: "The Sun is a yellow dwarf star, a hot ball of glowing gases at the heart of our solar system. Its gravity holds the solar system together, keeping everything built around it in its orbit.",
     surfaceTemp: "5,500°C",
