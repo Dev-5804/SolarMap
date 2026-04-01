@@ -1,6 +1,7 @@
 export const PLANET_CONSTANTS = {
   SCALE_DISTANCE: 80, // Linear scale multiplier for real AU (1 AU = 80 units)
   SCALE_SIZE: 0.2, // Earth is 0.2 units.
+  SCALE_MOON_DISTANCE: 0.1, // Visual scalar multiplier to decouple Moon orbits from raw planetary AU physics
   TIME_SCALE: 3155760, // 10 seconds = 1 Earth year => 31557600s / 10
   SUN_RADIUS_EARTHS: 109.2, // The Sun is exactly 109.2 times Earth's radius
 };
@@ -11,11 +12,10 @@ export const planetsData = [
     name: "Mercury",
     type: "Terrestrial Planet",
     textureUrl: "/models/mercury.glb",
-    textureUrl: "/models/mercury.glb",
     distanceAU: 0.39,
+    orbitalPeriod: 0.24, // 88 Earth days converted safely into Earth-Years for mathematical continuity
     radiusEarths: 0.38,
-    orbitalPeriod: 0.24,
-    rotationPeriodHours: 1407.6, // 58.6 days
+    rotationPeriodHours: 1408, // 58.6 Earth days
     facts: {
       distanceFromSun: "57.9 million km (0.39 AU)",
       orbitalPeriod: "88 Earth days",
@@ -29,11 +29,10 @@ export const planetsData = [
     name: "Venus",
     type: "Terrestrial Planet",
     textureUrl: "/models/venus.glb",
-    textureUrl: "/models/venus.glb",
     distanceAU: 0.72,
+    orbitalPeriod: 0.615, // 225 Earth days converted safely into Earth-Years 
     radiusEarths: 0.95,
-    orbitalPeriod: 0.62,
-    rotationPeriodHours: -5832.5, // Retrograde rotation
+    rotationPeriodHours: -5832, // -243 Earth days (retrograde) rotation
     facts: {
       distanceFromSun: "108.2 million km (0.72 AU)",
       orbitalPeriod: "225 Earth days",
@@ -58,7 +57,25 @@ export const planetsData = [
       surfaceTemp: "15°C (Average)",
       moons: 1,
       description: "Our home planet is the third planet from the Sun, and the only place we know of so far that's inhabited by living things. It's also the only planet in our solar system with liquid water on the surface."
-    }
+    },
+    moons: [
+      {
+        id: "luna",
+        name: "The Moon",
+        type: "Natural Satellite",
+        textureUrl: "/models/moons/Luna.glb",
+        radiusEarths: 0.27,
+        distanceBaseRadii: 3,
+        orbitalPeriodDays: 27.3,
+        rotationPeriodHours: 655.7,
+        facts: {
+          distanceFromSun: "149.6 million km (1.00 AU)",
+          orbitalPeriod: "27.3 Earth days",
+          surfaceTemp: "-173°C to 127°C",
+          description: "Earth's only natural satellite is simply called the Moon because people didn't know other moons existed until Galileo Galilei discovered four moons orbiting Jupiter in 1610."
+        }
+      }
+    ]
   },
   {
     id: "mars",
@@ -76,11 +93,41 @@ export const planetsData = [
       surfaceTemp: "-60°C (Average)",
       moons: 2,
       description: "Mars is the fourth planet from the Sun – a dusty, cold, desert world with a very thin atmosphere. Mars is also a dynamic planet with seasons, polar ice caps, canyons, extinct volcanoes."
-    }
+    },
+    moons: [
+      {
+        id: "phobos",
+        name: "Phobos",
+        type: "Martian Moon",
+        textureUrl: "/models/moons/Phobos.glb",
+        radiusEarths: 0.08, // Scaled visually (real is much smaller)
+        distanceBaseRadii: 1.8,
+        orbitalPeriodDays: 0.3,
+        rotationPeriodHours: 7.6,
+        facts: {
+          orbitalPeriod: "8 Hours",
+          description: "Phobos is the larger and inner of the two natural satellites of Mars, speeding completely around the planet 3 times every Martian day."
+        }
+      },
+      {
+        id: "deimos",
+        name: "Deimos",
+        type: "Martian Moon",
+        textureUrl: "/models/moons/Deimos.glb",
+        radiusEarths: 0.04,
+        distanceBaseRadii: 3,
+        orbitalPeriodDays: 1.2,
+        rotationPeriodHours: 30.3,
+        facts: {
+          orbitalPeriod: "30 Hours",
+          description: "Deimos is the smaller and outermost of the two natural satellites of Mars. It is lumpy, heavily cratered, and irregularly shaped."
+        }
+      }
+    ]
   },
   {
     id: "jupiter",
-    name: "Gas Giant",
+    name: "Jupiter",
     type: "Gas Giant",
     textureUrl: "/models/jupiter.glb",
     textureUrl: "/models/jupiter.glb",
@@ -94,7 +141,13 @@ export const planetsData = [
       surfaceTemp: "-110°C (Average)",
       moons: 95,
       description: "Jupiter has a long history of surprising scientists—all the way back to 1610 when Galileo Galilei found the first moons beyond Earth. That discovery changed the way we see the universe."
-    }
+    },
+    moons: [
+      { id: "io", name: "Io", type: "Galilean Moon", textureUrl: "/models/moons/Io.glb", radiusEarths: 0.28, distanceBaseRadii: 1.5, orbitalPeriodDays: 1.7, rotationPeriodHours: 42, facts: { orbitalPeriod: "1.7 Days", description: "The most volcanically active world in the solar system." } },
+      { id: "europa", name: "Europa", type: "Galilean Moon", textureUrl: "/models/moons/Europa_1_3138.glb", radiusEarths: 0.24, distanceBaseRadii: 2.2, orbitalPeriodDays: 3.5, rotationPeriodHours: 85, facts: { orbitalPeriod: "3.5 Days", description: "Europa is thought to have an iron core, a rocky mantle, and an ocean of salty water underneath its ice crust." } },
+      { id: "ganymede", name: "Ganymede", type: "Galilean Moon", textureUrl: "/models/moons/Ganymede.glb", radiusEarths: 0.41, distanceBaseRadii: 3.5, orbitalPeriodDays: 7.1, rotationPeriodHours: 171, facts: { orbitalPeriod: "7.1 Days", description: "The largest moon in our solar system, Ganymede is bigger than the planet Mercury." } },
+      { id: "callisto", name: "Callisto", type: "Galilean Moon", textureUrl: "/models/moons/Callisto.glb", radiusEarths: 0.37, distanceBaseRadii: 5.0, orbitalPeriodDays: 16.6, rotationPeriodHours: 400, facts: { orbitalPeriod: "16.6 Days", description: "Callisto is a dead, heavily cratered icy rock with apparently no geologic activity." } },
+    ]
   },
   {
     id: "saturn",
@@ -112,7 +165,10 @@ export const planetsData = [
       surfaceTemp: "-140°C (Average)",
       moons: 146,
       description: "Saturn is the sixth planet from the Sun and the second-largest planet in our solar system. Adorned with a dazzling, complex system of icy rings, Saturn is unique among the planets."
-    }
+    },
+    moons: [
+      { id: "titan", name: "Titan", type: "Saturnian Moon", textureUrl: "/models/moons/Titan.glb", radiusEarths: 0.40, distanceBaseRadii: 2.5, orbitalPeriodDays: 15.9, rotationPeriodHours: 382, facts: { orbitalPeriod: "15.9 Days", description: "Titan is the only moon in our solar system that has clouds and a dense atmosphere." } }
+    ]
   },
   {
     id: "uranus",
@@ -158,6 +214,7 @@ export const sunData = {
   type: "Yellow Dwarf Star",
   textureUrl: "/models/sun.glb",
   rotationPeriodHours: 609.12, // 25 Earth days at equator
+  radiusEarths: 109.2,
   facts: {
     description: "The Sun is a yellow dwarf star, a hot ball of glowing gases at the heart of our solar system. Its gravity holds the solar system together, keeping everything built around it in its orbit.",
     surfaceTemp: "5,500°C",
